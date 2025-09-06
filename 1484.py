@@ -1,8 +1,7 @@
 
 import pandas as pd
 
-def categorize_products(activities: pd.DataFrame) -> pd.DataFrame:
-    dp = activities[['sell_date', 'product']].drop_duplicates()
+def categorize_products(dp: pd.DataFrame) -> pd.DataFrame:
     cnt = (
         dp.groupby('sell_date', as_index = False)
         .agg(
@@ -16,5 +15,4 @@ def categorize_products(activities: pd.DataFrame) -> pd.DataFrame:
                         lambda s: ','.join(sorted(s.unique(), key = str.lower))),
         )
     )
-    mr = cnt.merge(names, how='inner', on='sell_date')
-    return mr
+    return cnt.merge(names, how='inner', on='sell_date')
